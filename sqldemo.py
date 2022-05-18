@@ -1,18 +1,19 @@
-import mysql.connector
+import sqlite3
 
-mydb = mysql.connector.connect(
-  host="127.0.0.1",       # 数据库主机地址
-  user="root",    # 数据库用户名
-  passwd="10356",   # 数据库密码
-)
+def create(c):
+    c.execute('''CREATE TABLE QUESTIONS
+       (ID INTEGER PRIMARY KEY,
+        ISSUE TEXT NOT NULL,
+        CHOICE TEXT ,
+        ANSWER TEXT NOT NULL);''')
+    print ("数据表创建成功")
 
-mycursor = mydb.cursor()
- 
-# mycursor.execute("CREATE DATABASE Questions")
-
-sql = "DROP TABLE IF EXISTS sites"  # 删除数据表 sites
- 
-mycursor.execute(sql)
-
-
-# print(mydb)
+conn = sqlite3.connect('question.db')
+print ("Database is ready!")
+c = conn.cursor()
+# create(c)
+c.execute("SELECT * FROM QUESTIONS")
+# c.execute("DELETE FROM QUESTIONS")
+print(c.fetchall())
+conn.commit()
+conn.close()
